@@ -60,71 +60,61 @@
 
 using namespace std;
 
-const int N = 1e5 + 10;
-vector<int> adj[N];
-vector<bool> visited(N, false);
-vector<int> level(N, 0);
-vector<int> parent(N, -1);
+const int N = 1e3 + 10;
+vector<string> adj;
+int visited[N][N];
 
-void bfs(int s)
+int n, m;
+bool isValid(int i, int j)
 {
-    queue<int> que;
-    que.push(s);
-    level[s] = 0;
-    visited[s] = true;
+    return (i >= 0 && i < n && j >= 0 && j < m);
+}
+void dfs(int i, int j)
+{
 
-    while (!que.empty())
-    {
-        int u = que.front();
-        que.pop();
+    if (!isValid(i, j))
+        return;
+    if (visited[i][j])
+        return;
+    if (adj[i][j] == '#')
+        return;
 
-        for (int v : adj[u])
-        {
+    visited[i][j] = true;
 
-            if (visited[v] == true)
-                continue;
-            que.push(v);
-            visited[v] = true;
-            parent[v] = u;
-            level[v] = level[u] + 1;
-        }
-    }
+    dfs(i, j - 1);
+    dfs(i, j + 1);
+    dfs(i - 1, j);
+    dfs(i + 1, j);
 }
 
 int main()
 {
 
-    int n, m;
     cin >> n >> m;
 
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < n; i++)
     {
-        int u, v;
-        cin >> u >> v;
+        string u;
+        cin >> u;
 
-        adj[u].push_back(v); // weited hole
-
-        adj[v].push_back(u); // weited hole
+        adj.push_back(u);
     }
 
-    bfs(1);
-    cout << level[n] + 1 << endl;
-    int curr = n;
-    vector<int> path;
-    while (curr != -1)
+    int cnt = 0;
+    for (int i = 0; i < n; i++)
     {
-        path.push_back(curr);
-        curr = parent[curr];
+        for (int j = 0; j < m; j++)
+        {
+            if (adj[i][j] == '#')
+                continue;
+            if (visited[i][j])
+                continue;
+            dfs(i, j);
+            cnt++;
+        }
     }
-    reverse(path.begin(), path.end());
-    for (auto p : path)
-    {
-        cout << p << " ";
-    }
+
+    cout << cnt << endl;
 
     return 0;
 }
-/*
-
-
-*/
