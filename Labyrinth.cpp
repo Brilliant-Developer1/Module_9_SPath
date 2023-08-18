@@ -65,62 +65,71 @@ const int N = 1e3 + 10;
 vector<string> adj;
 int visited[N][N];
 vector<pii> direction = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+int level[N][N];
+pii parent[N][N];
 
 int n, m;
+
 bool isValid(int i, int j)
 {
     return (i >= 0 && i < n && j >= 0 && j < m);
 }
-void dfs(int i, int j)
+
+void bfs(int si, int sj)
 {
+    queue<pii> que;
 
-    if (!isValid(i, j))
-        return;
-    if (visited[i][j])
-        return;
-    if (adj[i][j] == '#')
-        return;
+    que.push({si, sj});
+    visited[si][sj] = true;
+    level[si][sj] = 0;
 
-    visited[i][j] = true;
-
-    for (auto d : direction)
+    while (!que.empty())
     {
-        dfs(i + d.first, j + d.second);
+        pii upair = que.front();
+        int i = upair.first;
+        int j = upair.second;
+        que.pop();
+
+        for (auto d : direction)
+        {
+            int ni = i + d.first;
+            int nj = j + d.second;
+
+            if (isValid(ni, nj) && !visited[ni][nj] && adj[ni][nj] != '#')
+            {
+                que.push({ni, nj});
+                visited[ni][nj] = true;
+                level[ni][nj] = level[i][j] + 1;
+                parent[ni][nj] = {i, j};
+            }
+        }
     }
-    // dfs(i, j - 1);
-    // dfs(i, j + 1);
-    // dfs(i - 1, j);
-    // dfs(i + 1, j);
 }
 
 int main()
 {
 
+    int si, sj, di, dj;
     cin >> n >> m;
 
     for (int i = 0; i < n; i++)
     {
         string u;
         cin >> u;
+        for (int j = 0; j < m; j++)
+        {
+            if (u[j] == 'A')
+                si = i, sj = j;
+            if (u[j] == 'B')
+                di = i, dj = j;
+        }
 
         adj.push_back(u);
     }
 
-    int cnt = 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            if (adj[i][j] == '#')
-                continue;
-            if (visited[i][j])
-                continue;
-            dfs(i, j);
-            cnt++;
-        }
-    }
+    bfs(si, sj);
 
-    cout << cnt << endl;
+    cout << level[di][dj] << endl;
 
     return 0;
 }
@@ -128,12 +137,13 @@ int main()
 /*
 5 8
 ########
-#..#...#
-####.#.#
-#..#...#
+#.A#...#
+#.##.#B#
+#......#
 ########
 
 
-
-3
+YES
+9
+LDDRRRRRU
 */
