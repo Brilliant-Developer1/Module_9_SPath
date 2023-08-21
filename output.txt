@@ -1,3 +1,4 @@
-6
-1
-4
+Dist 1: 0
+Dist 2: -2
+Dist 3: 3
+Dist 4: 8
