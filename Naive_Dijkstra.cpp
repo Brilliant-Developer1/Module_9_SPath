@@ -89,7 +89,7 @@ void dijkstra(int source)
             if (visited[v])
                 continue;
 
-            // kaaj
+            //   kaaj
             if (dist[v] > dist[u] + w)
             {
                 dist[v] = dist[u] + w;
@@ -112,7 +112,7 @@ int main()
 
         adj[u].push_back({v, w}); // undirected
 
-        // adj[v].push_back({u, w}); // directed
+        adj[v].push_back({u, w}); // directed
     }
 
     // O(n+m)
