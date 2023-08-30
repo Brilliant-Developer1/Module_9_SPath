@@ -1,5 +1,1 @@
-Distance 1: 0
-Distance 2: 3
-Distance 3: 2
-Distance 4: 4
-Distance 5: 5
+1
