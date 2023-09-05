@@ -57,7 +57,10 @@
 #include <utility>
 #include <valarray>
 #include <vector>
+//
 
+#include <iostream>
+#include <vector>
 using namespace std;
 
 typedef pair<int, int> pii;
