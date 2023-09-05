@@ -110,7 +110,7 @@ int main()
         d[u][v] = w;
         // d[v][u] = w;
     }
-
+    cout << "Before\n";
     print_matrix();
 
     for (int k = 1; k <= n; k++)
